@@ -109,7 +109,7 @@ public class JsonFormatter {
 	public String formatStepList(List<AlgStep> list) throws JSONException {
 		ct = new HashMap();
 		JSONObject wrapper = new JSONObject();
-        int counter = 0;
+
 		JSONArray ja = new JSONArray();
 		JSONObject jo;
 		JSONObject algStep;
@@ -130,7 +130,7 @@ public class JsonFormatter {
 				jo.put("duration", duration);
 				jo.put("start_date", start_date);
 				jo.put("parent", parent);
-				algStep.put("id",counter);
+				algStep.put("id",job.getStepId());
 				algStep.put("text",job.getName());
 				algStep.put("Schritt",jo);
 				ja.put(algStep);
@@ -138,10 +138,10 @@ public class JsonFormatter {
 			}else{
 				algStep.put("text",job.getName());
 				algStep.put("Schritt",jo);
-				algStep.put("id",counter);
+				algStep.put("id",job.getStepId());
 				ja.put(algStep);
 			}
-			counter++;
+
 
 		}
 		//add machines

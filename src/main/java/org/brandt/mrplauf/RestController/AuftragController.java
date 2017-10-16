@@ -44,8 +44,18 @@ public class AuftragController {
 	@CrossOrigin
 	public String getGiffler() throws JSONException {		
 		giffler.planeZeit();
-		return formatter.format(giffler.getList());	
+		return formatter.format(giffler.getList());
 	}
+
+	@RequestMapping("/gifflerStep")
+	@CrossOrigin
+	public String getGifflerStep() throws JSONException {
+		giffler.planeZeit();
+		return formatter.formatStepList(giffler.getStepList());
+	}
+
+
+
 	
 	
 }

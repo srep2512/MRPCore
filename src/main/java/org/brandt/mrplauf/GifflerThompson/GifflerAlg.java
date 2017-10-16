@@ -16,11 +16,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.brandt.mrplauf.MrplaufApplication;
-import org.brandt.mrplauf.entities.Arbeitsplan;
-import org.brandt.mrplauf.entities.JsonStep;
-import org.brandt.mrplauf.entities.Produktionsauftrag;
-import org.brandt.mrplauf.entities.Ressource;
-import org.brandt.mrplauf.entities.Schritt;
+import org.brandt.mrplauf.entities.*;
 import org.brandt.mrplauf.repositories.ProduktionsAuftragRepository;
 import org.brandt.mrplauf.repositories.RessourceRepository;
 import org.slf4j.Logger;
@@ -39,6 +35,7 @@ public class GifflerAlg {
 	HashMap<Integer, LocalDate> maschines;
 	List<Schritt> finalSchritt;
 	List<Schritt> listTmp;
+	List<AlgStep> algStep;
 	
 	List<JsonStep> jsonStep;
 	
@@ -56,6 +53,7 @@ public class GifflerAlg {
 		finalSchritt = new ArrayList();
 		listTmp = new ArrayList();
 		jsonStep = new ArrayList();
+		algStep = new ArrayList();
 	}
 	
 	
@@ -99,17 +97,21 @@ public class GifflerAlg {
 		finalSchritt = new ArrayList();
 		listTmp = new ArrayList();
 		jsonStep = new ArrayList();
+
+		addStep("Start",new Schritt());
+		addStep("Initialisiere Startzeitgrenzen",new Schritt());
 		initTime();
 		initDictionary();	
 		
 		
 		while(auftrag.size() != 0) {
+			addStep("Sammle Jobs aus Produktionsauftraegen",new Schritt());
 		    //auftrag.get(0).getAp().getSchritte().forEach(x->log.info("Schritt " + x.getName()));	
 			List<Schritt> S = getFirstJobs();
 			
 			
 			while(S.size() != 0) {
-				
+
 				List<Ressource> R = getRessourcesByStep(S);
 				
 				while(R.size() != 0) {
@@ -117,6 +119,7 @@ public class GifflerAlg {
 				    Schritt operation = S.stream()
 				    .filter(x -> x.getRessource().getID() == firstRessource.getID())
 				    .collect(Collectors.toList()).get(0);
+
 				    
 				    S = saveOperation(operation,S);
 				    R = getRessources(S);
@@ -128,9 +131,8 @@ public class GifflerAlg {
 			List<Schritt> prevJobs = getFirstJobs();
 			prevJobs.forEach(x -> log.info("First Jobs: "+ x.getName() + "  " + x.paid));
 			deleteFromAuftrage(prevJobs);
-			
-			
 		}
+		addStep("Ende",new Schritt());
 		
 	}
 	
@@ -148,7 +150,7 @@ public class GifflerAlg {
 	}
 	
 	public List<Ressource> getRessourcesByStep(List<Schritt> S){
-		
+		addStep("Filtere Maschinen aus R",new Schritt());
 		List<Ressource> R = S.stream()
 		.map(x -> x.getRessource())
 		.collect(Collectors.toList());		
@@ -158,7 +160,7 @@ public class GifflerAlg {
 	
 	public List<Schritt> saveOperation(Schritt step, List<Schritt> S){
 		List<Schritt> tmp = S;
-		
+		addStep("Prioritaetsregel anwenden",new Schritt());
 		if(step.getParents() == null) {
 			int ressourceID = step.getRessource().getID();
 			step.setStart(maschines.get(ressourceID));
@@ -172,6 +174,7 @@ public class GifflerAlg {
 				step.setEnde(step.getStart().plusDays(step.getDauer()));
 				maschines.put(step.getRessource().getID(), step.getEnde());
 		}
+		addStep("Operation verplanen",step);
 		finalSchritt.add(step);
 		tmp.removeIf(x -> x.getID() == step.getID());
 		return tmp;
@@ -234,13 +237,16 @@ public class GifflerAlg {
 	public List<Schritt> getList(){
 		return finalSchritt;
 	}
+
+
+	private void addStep(String name, Schritt step){
+		algStep.add(new AlgStep(name,step));
+	}
+	public List<AlgStep> getStepList(){
+		return algStep;
+	}
 	
-	
-	
-	
-	
-	
-	
+
 	
 	
 	

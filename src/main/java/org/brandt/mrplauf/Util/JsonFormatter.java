@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.brandt.mrplauf.entities.AlgStep;
 import org.brandt.mrplauf.entities.JsonStep;
 import org.brandt.mrplauf.entities.Produktionsauftrag;
 import org.brandt.mrplauf.entities.Schritt;
@@ -36,14 +37,14 @@ public class JsonFormatter {
 	      },
 	      {
 	        "id": 1.1,
-	        "text": "Platte sägen",
+	        "text": "Platte s?gen",
 	        "duration": 2,
 	        "start_date": "03-08-2017",
 	        "parent": 1
 	      },
 	      {
 	        "id": 1.2,
-	        "text": "Platte2 sägen",
+	        "text": "Platte2 s?gen",
 	        "duration": 2,
 	        "start_date": "05-08-2017",
 	        "parent": 1
@@ -94,6 +95,62 @@ public class JsonFormatter {
 		}
 		
 		return ressId+"."+ct.get(ressId).toString();
+	}
+
+
+	/*steps:[
+              {
+                "stepId": 1,
+                "text": "Start",
+                {Schritt}
+              }
+          ]
+        */
+	public String formatStepList(List<AlgStep> list) throws JSONException {
+		ct = new HashMap();
+		JSONObject wrapper = new JSONObject();
+
+		JSONArray ja = new JSONArray();
+		JSONObject jo;
+		JSONObject algStep;
+		for(AlgStep job : list) {
+			//Object "Schritt"
+			jo = new JSONObject();
+			//Object "AlgStep"
+			algStep = new JSONObject();
+			if (job.getStep().getDauer() != 0){
+				String ressId = getRessID(job.getStep().getRessource().getID());
+				String text = "PA: " +job.getStep().paid;
+				int duration = job.getStep().getDauer();
+				String start_date = job.getStep().getStart().format(formatter);
+				String parent = job.getStep().getRessource().getID()+"";
+				//JsonStep st = new JsonStep(ressId,text,duration,start_date,parent);
+				jo.put("id", ressId);
+				jo.put("text", text);
+				jo.put("duration", duration);
+				jo.put("start_date", start_date);
+				jo.put("parent", parent);
+				algStep.put("text",job.getName());
+				algStep.put("Schritt",jo);
+				ja.put(algStep);
+			}else{
+				algStep.put("text",job.getName());
+				algStep.put("Schritt",jo);
+				ja.put(algStep);
+			}
+
+		}
+		//add machines
+		for(int key : ct.keySet()) {
+			JSONObject jk = new JSONObject();
+			jk.put("id", key);
+			jk.put("text", "Machine: " + key);
+			ja.put(jk);
+		}
+
+		wrapper.put("data", ja);
+
+		return  wrapper.toString();
 	}
 	
 	

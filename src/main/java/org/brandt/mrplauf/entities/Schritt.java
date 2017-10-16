@@ -52,7 +52,9 @@ public class Schritt implements Cloneable{
 	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.DETACH)
 	Ressource ressource;
 	
-	public Schritt() {}
+	public Schritt() {
+		setDauer(0);
+	}
 	public Schritt(int ID, String Name,int Dauer,String list, Ressource ressource) {
 		this.ID = ID;
 		this.Name = Name;

@@ -6,7 +6,8 @@ public class AlgStep {
     int stepId;
     Schritt step;
 
-    public AlgStep(String name, Schritt schritt){
+    public AlgStep(int id,String name, Schritt schritt){
+        setStepId(id);
         setName(name);
         setStep(schritt);
     }

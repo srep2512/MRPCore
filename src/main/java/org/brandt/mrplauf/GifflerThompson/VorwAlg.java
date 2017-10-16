@@ -1,6 +1,6 @@
 package org.brandt.mrplauf.GifflerThompson;
 
-import static org.hamcrest.CoreMatchers.hasItems;
+
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -53,7 +53,7 @@ public class VorwAlg {
 		return list;
 	}
 	
-	//Berechnung der frühsten Anfangszeitpunkte
+	//Berechnung der frï¿½hsten Anfangszeitpunkte
 	private void calcFAZ() {
 		tmpSchritte = 	auftrag.get(0).getAp().getSchritte();
 		initDate();

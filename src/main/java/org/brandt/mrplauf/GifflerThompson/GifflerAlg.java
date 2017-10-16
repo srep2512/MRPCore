@@ -99,14 +99,14 @@ public class GifflerAlg {
 		jsonStep = new ArrayList();
 		algStep = new ArrayList();
 
-		addStep("Start",new Schritt());
-		addStep("Initialisiere Startzeitgrenzen",new Schritt());
+		addStep(0,"Start",new Schritt());
+		addStep(1,"Initialisiere Startzeitgrenzen",new Schritt());
 		initTime();
 		initDictionary();	
 		
 		
 		while(auftrag.size() != 0) {
-			addStep("Sammle Jobs aus Produktionsauftraegen",new Schritt());
+			addStep(2,"Sammle Jobs aus Produktionsauftraegen",new Schritt());
 		    //auftrag.get(0).getAp().getSchritte().forEach(x->log.info("Schritt " + x.getName()));	
 			List<Schritt> S = getFirstJobs();
 			
@@ -133,7 +133,7 @@ public class GifflerAlg {
 			prevJobs.forEach(x -> log.info("First Jobs: "+ x.getName() + "  " + x.paid));
 			deleteFromAuftrage(prevJobs);
 		}
-		addStep("Ende",new Schritt());
+		addStep(8,"Ende",new Schritt());
 		
 	}
 	
@@ -151,7 +151,7 @@ public class GifflerAlg {
 	}
 	
 	public List<Ressource> getRessourcesByStep(List<Schritt> S){
-		addStep("Filtere Maschinen aus R",new Schritt());
+		addStep(3,"Filtere Maschinen aus S",new Schritt());
 		List<Ressource> R = S.stream()
 		.map(x -> x.getRessource())
 		.collect(Collectors.toList());		
@@ -161,7 +161,7 @@ public class GifflerAlg {
 	
 	public List<Schritt> saveOperation(Schritt step, List<Schritt> S){
 		List<Schritt> tmp = S;
-		addStep("Prioritaetsregel anwenden",new Schritt());
+		addStep(5,"Prioritaetsregel anwenden",new Schritt());
 		if(step.getParents() == null) {
 			int ressourceID = step.getRessource().getID();
 			step.setStart(maschines.get(ressourceID));
@@ -175,7 +175,7 @@ public class GifflerAlg {
 				step.setEnde(step.getStart().plusDays(step.getDauer()));
 				maschines.put(step.getRessource().getID(), step.getEnde());
 		}
-		addStep("Operation verplanen",step);
+		addStep(6,"Operation verplanen",step);
 		finalSchritt.add(step);
 		tmp.removeIf(x -> x.getID() == step.getID());
 		return tmp;
@@ -240,8 +240,8 @@ public class GifflerAlg {
 	}
 
 
-	private void addStep(String name, Schritt step){
-		algStep.add(new AlgStep(name,step));
+	private void addStep(int id,String name, Schritt step){
+		algStep.add(new AlgStep(id,name,step));
 	}
 	public List<AlgStep> getStepList(){
 		return algStep;

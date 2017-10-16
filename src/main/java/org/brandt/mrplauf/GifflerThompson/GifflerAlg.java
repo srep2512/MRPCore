@@ -97,6 +97,7 @@ public class GifflerAlg {
 		finalSchritt = new ArrayList();
 		listTmp = new ArrayList();
 		jsonStep = new ArrayList();
+		algStep = new ArrayList();
 
 		addStep("Start",new Schritt());
 		addStep("Initialisiere Startzeitgrenzen",new Schritt());

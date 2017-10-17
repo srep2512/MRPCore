@@ -123,14 +123,12 @@ public class JsonFormatter {
 				String text = "PA: " +job.getStep().paid;
 				int duration = job.getStep().getDauer();
 				String start_date = job.getStep().getStart().format(formatter);
-				String end_date = job.getStep().getEnde().format(formatter);
 				String parent = job.getStep().getRessource().getID()+"";
 				//JsonStep st = new JsonStep(ressId,text,duration,start_date,parent);
 				jo.put("id", ressId);
 				jo.put("text", text);
 				jo.put("duration", duration);
 				jo.put("start_date", start_date);
-				jo.put("end_date",end_date);
 				jo.put("parent", parent);
 				algStep.put("id",job.getStepId());
 				algStep.put("text",job.getName());

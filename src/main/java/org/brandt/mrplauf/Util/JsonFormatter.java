@@ -137,7 +137,6 @@ public class JsonFormatter {
 
 			}else{
 				algStep.put("text",job.getName());
-				algStep.put("Schritt",jo);
 				algStep.put("id",job.getStepId());
 				ja.put(algStep);
 			}

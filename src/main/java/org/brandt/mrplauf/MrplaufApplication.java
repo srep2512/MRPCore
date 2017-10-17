@@ -14,7 +14,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-
+import org.springframework.web.filter.CharacterEncodingFilter;
 
 
 @SpringBootApplication
@@ -26,7 +26,13 @@ public class MrplaufApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MrplaufApplication.class, args); 
 	}
-	
+	@Bean
+	CharacterEncodingFilter characterEncodingFilter() {
+		CharacterEncodingFilter filter = new CharacterEncodingFilter();
+		filter.setEncoding("UTF-8");
+		filter.setForceEncoding(true);
+		return filter;
+	}
 	@Bean
 	public CommandLineRunner demo(GifflerAlg giffler, Initializer initializer,ProduktRepository repository,ProduktionsAuftragRepository auftraege) {
 		return (args) -> {
@@ -53,5 +59,7 @@ public class MrplaufApplication {
 			// fetch an individual customer by ID
 			
 		};
+
+
 	}
 }

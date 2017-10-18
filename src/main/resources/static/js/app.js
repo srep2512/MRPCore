@@ -184,8 +184,9 @@ const moduleMRPStore = {
             });
         },
         CCOLOR(state, step) {
-            state.step = step;
             state.Farbe = state.Farbe.map((x, i) => i == step ? x = "red" : x = "green");
+        },
+        ADDSTEP(state) {
             state.step++;
         },
         ADD(state, step) {
@@ -217,6 +218,9 @@ const moduleMRPStore = {
         },
         addStep({ commit }, step) {
             commit('ADD', step);
+        },
+        incStep({ commit }) {
+            commit('ADDSTEP');
         },
         reset({ commit }) {
             commit('RESET');

@@ -1145,7 +1145,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         gantt.render();
       }
       var step = this.$store.getters.displayStep;
-      this.$store.dispatch('changeColor', step);
+      if (!AlgSteps.data[step].text.match("^Ma")) this.$store.dispatch('changeColor', AlgSteps.data[step].id);
+      this.$store.dispatch('incStep');
     },
     reset() {
       this.$store.dispatch('reset');

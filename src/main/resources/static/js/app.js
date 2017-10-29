@@ -1,4 +1,4 @@
-webpackJsonp([7],{
+webpackJsonp([8],{
 
 /***/ 122:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -162,11 +162,13 @@ const moduleMRPStore = {
         step: 0,
         Schritteverplant: { data: [] },
         AlgorithmusSchritte: [],
+        AlgorithmusSchritteBis: [],
         Farbe: ["green", "green", "green", "green", "green", "green", "green", "green", "green", "green"]
     },
     getters: {
         displayedAuftraege: state => state.Produktionsauftrage,
         displayAlgorithmusSchritte: state => state.AlgorithmusSchritte,
+        displayAlgorithmusSchritteBis: state => state.AlgorithmusSchritteBis,
         displaySchritteverplant: state => state.Schritteverplant,
         displayStep: state => state.step,
         getFarbe: state => state.Farbe
@@ -176,6 +178,7 @@ const moduleMRPStore = {
         LOAD_STEPS(state, steps) {
             //Gesamte Schritte speichern
             state.AlgorithmusSchritte = steps;
+            state.Schritteverplant.data = [];
             //Maschinen laden
             steps.data.filter((x, i, arr) => {
                 if (x.text.match("^M")) {
@@ -189,12 +192,16 @@ const moduleMRPStore = {
         ADDSTEP(state) {
             state.step++;
         },
-        ADD(state, step) {
-            state.Schritteverplant.data.push(step);
+        UPDATE(state, step) {
+            state.Schritteverplant.data = step;
+        },
+        UPDATEBIS(state, step) {
+            state.AlgorithmusSchritteBis = step;
         },
         RESET(state) {
             state.step = 0;
             state.Schritteverplant.data = [];
+            state.AlgorithmusSchritteBis = [];
             state.AlgorithmusSchritte.data.filter((x, i, arr) => {
                 if (x.text.match("^M")) {
                     state.Schritteverplant.data.push(x);
@@ -216,14 +223,17 @@ const moduleMRPStore = {
         changeColor({ commit }, id) {
             commit('CCOLOR', id);
         },
-        addStep({ commit }, step) {
-            commit('ADD', step);
+        update({ commit }, steps) {
+            commit('UPDATE', steps);
         },
         incStep({ commit }) {
             commit('ADDSTEP');
         },
         reset({ commit }) {
             commit('RESET');
+        },
+        updateBIS({ commit }, steps) {
+            commit('UPDATEBIS', steps);
         }
     }
 };
@@ -630,29 +640,33 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
-	"./Diagram/giffler.vue": [
+	"./Diagram/GanttDiagram.vue": [
 		145,
-		5
+		2
+	],
+	"./Diagram/giffler.vue": [
+		146,
+		6
 	],
 	"./Error404.vue": [
-		146,
-		4
+		147,
+		5
 	],
 	"./Info_View.vue": [
-		147,
+		148,
 		1
 	],
 	"./MRP_VIEW.vue": [
-		148,
+		149,
 		0
 	],
 	"./Mainpage.vue": [
-		149,
-		3
+		150,
+		4
 	],
 	"./Projektverwaltung.vue": [
-		150,
-		2
+		151,
+		3
 	]
 };
 function webpackAsyncContext(req) {

@@ -12,16 +12,18 @@ Follow the steps to set up a development environment or to run the standalone ap
 ## 1.1 Prerequesites
 Download [Eclipse]:(http://www.eclipse.org/downloads/eclipse-packages/)
 Download and install [Java JDK8]:(http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+Download and install [GIT]: (https://git-for-windows.github.io/)  
 
 Make sure to set the JAVA_HOME environment variable correct.
 
 ## 1.2 Repository
-Clone the repository and open it in your favorit IDE as a gradle Project
+Open Git Bash and clone the repository. Import the downloaded project in your favorit IDE as a gradle Project.
+e.g. eclipse: File --> Import --> Gradle --> Existing Gradle Project
 
 > git clone https://github.com/srep2512/MRPCore
 
 ## 1.3 Start up
-Start the Application and open a browser under http://localhost:8080
+Start the Application and open a browser http://localhost:8080
 
 # Routes
 
